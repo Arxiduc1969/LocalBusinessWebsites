@@ -147,6 +147,8 @@ const ui = {
     promptDescription: "Customize the fields and copy the finished prompt.",
     copyPrompt: "Copy customized prompt",
     copied: "Prompt copied to clipboard",
+    overallProgress: "Overall progress",
+    tasksCompleted: (done, total) => `${done} of ${total} tasks completed`,
     mark: "Mark",
     complete: "complete"
   },
@@ -163,6 +165,8 @@ const ui = {
     promptDescription: "Passe die Felder an und kopiere den fertigen Prompt.",
     copyPrompt: "Angepassten Prompt kopieren",
     copied: "Prompt wurde kopiert",
+    overallProgress: "Gesamtfortschritt",
+    tasksCompleted: (done, total) => `${done} von ${total} Aufgaben erledigt`,
     mark: "Als erledigt markieren:",
     complete: ""
   }
@@ -224,7 +228,19 @@ function renderRoadmap() {
       </div>
     </article>`;
   }).join("");
+  updateOverallProgress();
   bindRoadmap();
+}
+
+function updateOverallProgress() {
+  const total = roadmap().reduce((sum, group) => sum + (group.infoOnly ? 0 : group.steps.length), 0);
+  const done = [...completed].filter((key) => !roadmap()[Number(key.split("-")[0])]?.infoOnly).length;
+  const percent = total ? Math.round((done / total) * 100) : 0;
+  byId("overallProgressLabel").textContent = t("overallProgress");
+  byId("overallProgressValue").textContent = `${percent}%`;
+  byId("overallProgressTasks").textContent = t("tasksCompleted")(done, total);
+  byId("overallProgressBar").style.width = `${percent}%`;
+  document.querySelector(".overall-progress-track").setAttribute("aria-valuenow", percent);
 }
 
 function bindRoadmap() {

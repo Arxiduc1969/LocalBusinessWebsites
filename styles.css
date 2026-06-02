@@ -374,6 +374,20 @@ details p { margin: 6px 0 0; }
 
 .resource-section { margin-top: 54px; }
 .resource-section h2 { font-family: Georgia, "Times New Roman", serif; color: var(--text); font-size: 31px; letter-spacing: -.05em; }
+.overall-progress {
+  margin: 0 0 18px;
+  padding: 15px 17px 14px;
+  border: 1px solid var(--border-soft);
+  border-radius: 17px;
+  background: color-mix(in srgb, var(--surface-solid) 88%, transparent);
+  box-shadow: 0 12px 25px -27px rgba(48, 59, 55, .8);
+}
+.overall-progress-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; color: var(--muted); font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+.overall-progress-head strong { color: #b05c3d; font-size: 14px; letter-spacing: 0; }
+.overall-progress-track { height: 7px; margin: 10px 0 8px; overflow: hidden; border-radius: 999px; background: #eadfd2; }
+.overall-progress-track span { display: block; width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #cc805d, #61948a); transition: width .3s ease; }
+.overall-progress small { color: var(--muted); font-size: 12px; }
+[data-theme="dark"] .overall-progress-track { background: #33433f; }
 .resource-card {
   margin-bottom: 13px;
   border: 1px solid var(--border-soft);

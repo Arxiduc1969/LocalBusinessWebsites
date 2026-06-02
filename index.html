@@ -30,6 +30,16 @@
 
       <section class="resource-section" id="guide">
         <h2 id="roadmapHeading">Roadmap &amp; Resources</h2>
+        <div class="overall-progress" aria-live="polite">
+          <div class="overall-progress-head">
+            <span id="overallProgressLabel">Overall progress</span>
+            <strong id="overallProgressValue">0%</strong>
+          </div>
+          <div class="overall-progress-track" role="progressbar" aria-label="Overall progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <span id="overallProgressBar"></span>
+          </div>
+          <small id="overallProgressTasks">0 of 17 tasks completed</small>
+        </div>
         <div id="roadmapList"></div>
       </section>
 
@@ -56,6 +66,6 @@
     </main>
 
     <div class="toast" id="toast">Prompt copied to clipboard</div>
-    <script src="./script.js?v=20260602-7"></script>
+    <script src="./script.js?v=20260602-8"></script>
   </body>
 </html>
