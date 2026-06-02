@@ -258,10 +258,20 @@ footer { padding: 26px; color: var(--faint); border-top: 1px solid var(--border-
 .clone-prompt-title { display: flex; gap: 10px; align-items: center; padding: 12px; border-bottom: 1px solid #ddd6fe; }
 .clone-prompt-title span { display: grid; width: 31px; height: 31px; place-items: center; color: #7c3aed; border-radius: 8px; background: #fff; }
 .clone-prompt-title small { display: block; margin-top: 2px; color: var(--muted); }
-.clone-fields { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px 14px; padding: 15px 14px; }
+.clone-field-group { padding-top: 15px; }
+.clone-field-group + .clone-field-group { border-top: 1px solid var(--border-soft); }
+.clone-field-label { display: block; padding: 0 14px; color: var(--text); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+.clone-fields { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px 15px; padding: 12px 14px 16px; }
 .clone-fields label { color: var(--muted); font-size: 11px; font-weight: 700; }
-.clone-fields input, .clone-fields select { display: block; min-height: 42px; margin-top: 6px; padding-inline: 12px; }
-.clone-prompt pre { margin: 0 12px 12px; padding: 12px; overflow: auto; color: #cbd5e1; border-radius: 8px; background: #0f172a; font-size: 10px; line-height: 1.5; white-space: pre-wrap; }
+.clone-fields input, .clone-fields select, .clone-fields textarea { display: block; width: 100%; min-height: 42px; margin-top: 7px; padding: 10px 12px; color: var(--text); border: 1px solid var(--border); border-radius: 8px; background: var(--surface-solid); font: inherit; font-size: 12px; }
+.clone-fields textarea { min-height: 76px; resize: vertical; }
+.clone-advanced-toggle { display: grid; width: calc(100% - 28px); grid-template-columns: 25px 1fr; gap: 1px 8px; align-items: center; margin: 3px 14px 15px; padding: 11px 12px; color: var(--text); border: 1px solid var(--border-soft); border-radius: 10px; background: var(--surface-solid); cursor: pointer; text-align: left; font: inherit; }
+.clone-advanced-toggle span { grid-row: 1 / 3; color: var(--purple); font-size: 21px; line-height: 1; text-align: center; }
+.clone-advanced-toggle strong { font-size: 12px; }
+.clone-advanced-toggle small { color: var(--muted); font-size: 11px; }
+.clone-advanced-fields { display: none; border-top: 1px solid var(--border-soft); }
+.clone-advanced-fields.open { display: block; }
+.clone-prompt pre { max-height: 430px; margin: 0 12px 12px; padding: 12px; overflow: auto; color: #cbd5e1; border-radius: 8px; background: #0f172a; font-size: 10px; line-height: 1.5; white-space: pre-wrap; }
 .clone-copy { margin: 0 12px 12px; padding: 9px 11px; color: #fff; border: 0; border-radius: 8px; background: #7c3aed; cursor: pointer; font: inherit; font-size: 12px; font-weight: 700; }
 .trouble-section { margin-top: 46px; }
 .trouble-button { padding: 7px 12px; color: var(--muted); border: 1px solid var(--border); border-radius: 999px; background: var(--surface-solid); cursor: pointer; font: inherit; font-size: 12px; }
@@ -417,7 +427,11 @@ details p { margin: 6px 0 0; }
 [data-theme="dark"] .clone-prompt { border-color: #59453d; background: #352b27; }
 .clone-prompt-title { border-color: #eadbcd; }
 .clone-prompt-title span { color: #b05c3d; border-radius: 50%; }
-.clone-fields input, .clone-fields select { border-color: #e5d7ca; background: #fffdf9; }
+.clone-fields input, .clone-fields select, .clone-fields textarea { border-color: #e5d7ca; background: #fffdf9; }
+[data-theme="dark"] .clone-fields input,
+[data-theme="dark"] .clone-fields select,
+[data-theme="dark"] .clone-fields textarea,
+[data-theme="dark"] .clone-advanced-toggle { color: var(--text); border-color: #59453d; background: #293835; }
 .clone-prompt pre { background: #23302e; }
 .clone-copy { background: #b05c3d; }
 .clone-copy:hover { background: #92472f; }

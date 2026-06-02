@@ -117,14 +117,26 @@ de: [
 ]};
 
 const fieldDefinitions = [
-  ["business", "Business Name", "Hana Nagelstudio – Hana Beauty"],
-  ["type", "Business Type", "Beauty Salon", ["Restaurant", "Gym", "Dental Clinic", "Beauty Salon", "Real Estate", "Car Rental", "Law Firm", "Cleaning Service", "Spa", "General Local Business"]],
-  ["city", "City / Area", "Erfurt, Magdeburger Allee 112"],
-  ["phone", "Phone Number", "+49 1522 3436658"],
-  ["maps", "Google Maps Link", "https://www.google.com/maps/search/?api=1&query=Hana+Nagelstudio+Hana+Beauty+Magdeburger+Allee+112+99086+Erfurt"],
-  ["style", "Brand Style", "Luxury", ["Modern SaaS", "Luxury", "Minimal", "Bold", "Corporate"]],
-  ["color", "Primary Color", "Gold", ["Blue", "Purple", "Black", "Green", "Orange", "Red", "Gold"]],
-  ["cta", "Main CTA", "Call Now", ["Call Now", "Book Now", "Get Quote", "Message on WhatsApp", "Visit Us"]]
+  { id: "business", promptKey: "BUSINESS_NAME", label: { en: "Business Name", de: "Unternehmensname" }, value: "Hana Nagelstudio – Hana Beauty", section: "basic" },
+  { id: "type", promptKey: "BUSINESS_TYPE", label: { en: "Business Type", de: "Unternehmenstyp" }, value: "Beauty Salon", section: "basic", options: ["Restaurant", "Gym", "Dental Clinic", "Beauty Salon", "Real Estate", "Car Rental", "Law Firm", "Cleaning Service", "Spa", "General Local Business"] },
+  { id: "city", promptKey: "CITY_AREA", label: { en: "City / Area", de: "Stadt / Region" }, value: "Erfurt, Magdeburger Allee 112", section: "basic" },
+  { id: "phone", promptKey: "PHONE_NUMBER", label: { en: "Phone Number", de: "Telefonnummer" }, value: "+49 1522 3436658", section: "basic" },
+  { id: "maps", promptKey: "GOOGLE_MAPS_LINK", label: { en: "Google Maps Link", de: "Google-Maps-Link" }, value: "https://www.google.com/maps/search/?api=1&query=Hana+Nagelstudio+Hana+Beauty+Magdeburger+Allee+112+99086+Erfurt", section: "basic" },
+  { id: "style", promptKey: "BRAND_STYLE", label: { en: "Brand Style", de: "Markenstil" }, value: "Luxury", section: "style", options: ["Modern SaaS", "Luxury", "Minimal", "Bold", "Corporate"] },
+  { id: "color", promptKey: "PRIMARY_COLOR", label: { en: "Primary Color", de: "Primärfarbe" }, value: "Gold", section: "style", options: ["Blue", "Purple", "Black", "Green", "Orange", "Red", "Gold"] },
+  { id: "cta", promptKey: "MAIN_CTA", label: { en: "Main CTA", de: "Hauptaktion" }, value: "Call Now", section: "style", options: ["Call Now", "Book Now", "Get Quote", "Message on WhatsApp", "Visit Us"] },
+  { id: "tagline", promptKey: "BUSINESS_TAGLINE", label: { en: "Tagline", de: "Leitsatz" }, value: "", section: "advanced" },
+  { id: "address", promptKey: "FULL_ADDRESS", label: { en: "Full Address", de: "Vollständige Adresse" }, value: "Magdeburger Allee 112, 99086 Erfurt", section: "advanced" },
+  { id: "whatsapp", promptKey: "WHATSAPP_NUMBER", label: { en: "WhatsApp Number", de: "WhatsApp-Nummer" }, value: "", section: "advanced" },
+  { id: "email", promptKey: "EMAIL_ADDRESS", label: { en: "Email Address", de: "E-Mail-Adresse" }, value: "", section: "advanced" },
+  { id: "services", promptKey: "MAIN_SERVICES", label: { en: "Main Services", de: "Wichtigste Leistungen" }, value: "", section: "advanced", control: "textarea" },
+  { id: "secondaryServices", promptKey: "SECONDARY_SERVICES", label: { en: "Secondary Services", de: "Weitere Leistungen" }, value: "", section: "advanced", control: "textarea" },
+  { id: "hours", promptKey: "OPENING_HOURS", label: { en: "Opening Hours", de: "Öffnungszeiten" }, value: "", section: "advanced", control: "textarea" },
+  { id: "description", promptKey: "BUSINESS_DESCRIPTION", label: { en: "Business Description", de: "Unternehmensbeschreibung" }, value: "", section: "advanced", control: "textarea" },
+  { id: "sellingPoints", promptKey: "UNIQUE_SELLING_POINTS", label: { en: "Unique Selling Points", de: "Besondere Stärken" }, value: "", section: "advanced", control: "textarea" },
+  { id: "testimonials", promptKey: "TESTIMONIALS", label: { en: "Testimonials / Reviews", de: "Echte Bewertungen" }, value: "", section: "advanced", control: "textarea" },
+  { id: "secondaryCta", promptKey: "SECONDARY_CTA", label: { en: "Secondary CTA", de: "Zweite Aktion" }, value: "View Services", section: "advanced", options: ["View Services", "Learn More", "Contact Us"] },
+  { id: "secondaryColor", promptKey: "SECONDARY_COLOR", label: { en: "Secondary Color", de: "Sekundärfarbe" }, value: "Beige", section: "advanced", options: ["Light Gray", "White", "Dark Gray", "Beige"] }
 ];
 
 const completed = new Set();
@@ -132,7 +144,8 @@ const expanded = new Set();
 const byId = (id) => document.getElementById(id);
 const escapeHtml = (value) => value.replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[char]));
 let language = localStorage.getItem("profitStudioLanguage") === "de" ? "de" : "en";
-let fieldValues = Object.fromEntries(fieldDefinitions.map(([id, , value]) => [id, value]));
+let fieldValues = Object.fromEntries(fieldDefinitions.map(({ id, value }) => [id, value]));
+let advancedFieldsOpen = false;
 const ui = {
   en: {
     heroTitle: "Build Local Business Websites<br />with Claude Code",
@@ -147,6 +160,11 @@ const ui = {
     promptDescription: "Customize the fields and copy the finished prompt.",
     copyPrompt: "Copy customized prompt",
     copied: "Prompt copied to clipboard",
+    basicDetails: "Business details",
+    styleDetails: "Visual direction",
+    advancedOptions: "Add advanced details",
+    hideAdvancedOptions: "Hide advanced details",
+    advancedHint: "Optional: add more verified details for a stronger result.",
     overallProgress: "Overall progress",
     tasksCompleted: (done, total) => `${done} of ${total} tasks completed`,
     mark: "Mark",
@@ -165,6 +183,11 @@ const ui = {
     promptDescription: "Passe die Felder an und kopiere den fertigen Prompt.",
     copyPrompt: "Angepassten Prompt kopieren",
     copied: "Prompt wurde kopiert",
+    basicDetails: "Unternehmensdaten",
+    styleDetails: "Visuelle Richtung",
+    advancedOptions: "Erweiterte Angaben ergänzen",
+    hideAdvancedOptions: "Erweiterte Angaben ausblenden",
+    advancedHint: "Optional: Ergänze weitere geprüfte Angaben für ein stärkeres Ergebnis.",
     overallProgress: "Gesamtfortschritt",
     tasksCompleted: (done, total) => `${done} von ${total} Aufgaben erledigt`,
     mark: "Als erledigt markieren:",
@@ -180,28 +203,46 @@ function captureFieldValues() {
 }
 
 function promptText() {
-  const value = (id) => byId(id)?.value || fieldValues[id] || "";
-  return `You are a senior creative director and React/Vite frontend architect.
+  captureFieldValues();
+  const promptValues = Object.fromEntries(fieldDefinitions.map(({ id, promptKey }) => [
+    promptKey,
+    fieldValues[id]?.trim() || "Not provided — omit this element cleanly."
+  ]));
+  return byId("masterPromptTemplate").textContent.trim().replace(/\{\{([A-Z_]+)\}\}/g, (_, key) => promptValues[key] || "Not provided — omit this element cleanly.");
+}
 
-Build ONE complete, genuinely premium one-page website for:
-- Business: ${value("business")}
-- Type: ${value("type")}
-- Location: ${value("city")}
-- Phone: ${value("phone")}
-- Google Maps: ${value("maps")}
-- Brand direction: ${value("style")}
-- Primary color: ${value("color")}
-- Main CTA: ${value("cta")}
+function renderField({ id, label, options, control }) {
+  const input = options
+    ? `<select id="${id}" data-field>${options.map((option) => `<option ${option === fieldValues[id] ? "selected" : ""}>${escapeHtml(option)}</option>`).join("")}</select>`
+    : control === "textarea"
+      ? `<textarea id="${id}" data-field rows="3">${escapeHtml(fieldValues[id])}</textarea>`
+      : `<input id="${id}" data-field value="${escapeHtml(fieldValues[id])}" />`;
+  return `<label>${label[language]}${input}</label>`;
+}
 
-Treat this as design work, not section assembly. A few beautifully crafted sections beat ten mediocre ones. Make the website responsive, accessible, client-ready, and connect every button to a real action.`;
+function renderFields(section) {
+  return fieldDefinitions.filter((field) => field.section === section).map(renderField).join("");
 }
 
 function promptCard() {
   return `<div class="clone-prompt">
     <div class="clone-prompt-title"><span>⌘</span><div><strong>Claude Code Master Prompt</strong><small>${t("promptDescription")}</small></div></div>
-    <div class="clone-fields">${fieldDefinitions.map(([id, label, , options]) => `<label>${label}${options
-      ? `<select id="${id}" data-field>${options.map((option) => `<option ${option === fieldValues[id] ? "selected" : ""}>${escapeHtml(option)}</option>`).join("")}</select>`
-      : `<input id="${id}" data-field value="${escapeHtml(fieldValues[id])}" />`}</label>`).join("")}</div>
+    <div class="clone-field-group">
+      <strong class="clone-field-label">${t("basicDetails")}</strong>
+      <div class="clone-fields">${renderFields("basic")}</div>
+    </div>
+    <div class="clone-field-group">
+      <strong class="clone-field-label">${t("styleDetails")}</strong>
+      <div class="clone-fields">${renderFields("style")}</div>
+    </div>
+    <button class="clone-advanced-toggle" id="advancedToggle" type="button" aria-expanded="${advancedFieldsOpen}">
+      <span>${advancedFieldsOpen ? "−" : "+"}</span>
+      <strong>${advancedFieldsOpen ? t("hideAdvancedOptions") : t("advancedOptions")}</strong>
+      <small>${t("advancedHint")}</small>
+    </button>
+    <div class="clone-advanced-fields ${advancedFieldsOpen ? "open" : ""}" id="advancedFields">
+      <div class="clone-fields">${renderFields("advanced")}</div>
+    </div>
     <pre id="promptOutput"></pre>
     <button class="clone-copy" id="copyPrompt">${t("copyPrompt")}</button>
   </div>`;
@@ -257,6 +298,10 @@ function bindRoadmap() {
   document.querySelectorAll("[data-field]").forEach((field) => {
     field.addEventListener("input", updatePrompt);
     field.addEventListener("change", updatePrompt);
+  });
+  byId("advancedToggle")?.addEventListener("click", () => {
+    advancedFieldsOpen = !advancedFieldsOpen;
+    renderRoadmap();
   });
   byId("copyPrompt")?.addEventListener("click", async () => {
     await navigator.clipboard.writeText(promptText());

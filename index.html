@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profit Studio | Build Local Business Websites with Claude Code</title>
-    <link rel="stylesheet" href="./styles.css?v=20260602-6" />
+    <link rel="stylesheet" href="./styles.css?v=20260602-7" />
   </head>
   <body class="clone-body">
     <header class="reference-header">
@@ -66,6 +66,179 @@
     </main>
 
     <div class="toast" id="toast">Prompt copied to clipboard</div>
-    <script src="./script.js?v=20260602-8"></script>
+    <script id="masterPromptTemplate" type="text/plain">
+You are a senior creative director and React/Vite frontend architect with a portfolio of high-end local business websites. Build ONE complete, genuinely premium one-page website as a real React + Vite project. Treat this as design work, not section assembly — a few beautifully crafted sections beat ten mediocre ones.
+
+═══════════════════════════════════════
+PROJECT SETUP (DO THIS FIRST)
+═══════════════════════════════════════
+- If the current folder is EMPTY: create a new project here with `npm create vite@latest . -- --template react`, then install dependencies.
+- If a React + Vite project ALREADY EXISTS: build inside it. Do not re-scaffold.
+- Never deliver a single index.html file. This is a real component-based React project.
+- Plain CSS or CSS Modules only. No UI framework. Minimal dependencies.
+- When finished, the project must run with `npm run dev` and have zero console errors.
+
+═══════════════════════════════════════
+FILE STRUCTURE (BEGINNER-FRIENDLY)
+═══════════════════════════════════════
+src/
+  config/business.js     → ALL business content, colors, services, image URLs
+  components/
+    Navbar.jsx
+    Hero.jsx
+    Services.jsx
+    About.jsx
+    WhyChooseUs.jsx
+    Testimonials.jsx      (rendered only if testimonials exist)
+    Contact.jsx
+    Faq.jsx               (rendered only if it genuinely helps)
+    Footer.jsx
+  components/ui/          → Button.jsx, SectionHeading.jsx, ServiceCard.jsx
+  styles/global.css       → design tokens + base styles
+  App.jsx
+  main.jsx
+
+CRITICAL: Every word of business text, every color, every service, and every image URL lives ONLY in src/config/business.js. A non-technical owner must edit that one file to change the whole site. Components never hardcode content.
+
+═══════════════════════════════════════
+BUSINESS DETAILS
+═══════════════════════════════════════
+Business Name: {{BUSINESS_NAME}}
+Business Type: {{BUSINESS_TYPE}}
+Tagline: {{BUSINESS_TAGLINE}}
+City / Area: {{CITY_AREA}}
+Full Address: {{FULL_ADDRESS}}
+Phone Number: {{PHONE_NUMBER}}
+WhatsApp Number: {{WHATSAPP_NUMBER}}
+Email Address: {{EMAIL_ADDRESS}}
+Google Maps Link: {{GOOGLE_MAPS_LINK}}
+Main Services: {{MAIN_SERVICES}}
+Secondary Services: {{SECONDARY_SERVICES}}
+Opening Hours: {{OPENING_HOURS}}
+Business Description: {{BUSINESS_DESCRIPTION}}
+Unique Selling Points: {{UNIQUE_SELLING_POINTS}}
+Testimonials / Reviews: {{TESTIMONIALS}}
+Main CTA: {{MAIN_CTA}}
+Secondary CTA: {{SECONDARY_CTA}}
+Brand Style: {{BRAND_STYLE}}
+Primary Color: {{PRIMARY_COLOR}}
+Secondary Color: {{SECONDARY_COLOR}}
+
+═══════════════════════════════════════
+DESIGN SYSTEM — DEFINE THESE TOKENS IN global.css AND USE THEM EVERYWHERE
+═══════════════════════════════════════
+Premium is not a vibe — it is consistency. Hardcode this system and never deviate from it.
+
+TYPOGRAPHY
+- Two Google Fonts: a refined display/serif or strong geometric sans for headings; a clean, highly readable sans for body. Pick a pairing that genuinely fits {{BRAND_STYLE}} (e.g. elegant: "Fraunces" + "Inter"; modern: "Poppins" + "Inter"; trades/solid: "Sora" + "Inter").
+- Body base size: 18px desktop, 16px minimum mobile. Never smaller. Line-height 1.6–1.7.
+- Heading scale (desktop): H1 clamp(2.8rem, 5vw, 4.2rem); H2 clamp(2rem, 3.5vw, 2.8rem); H3 ~1.4rem. Line-height 1.1–1.2 for headings, tightened letter-spacing on large headings.
+- Section labels (small caps eyebrow text) above H2s: 0.8rem, letter-spacing 0.12em, uppercase, in the accent color.
+- Limit body text line length: max-width ~65ch on paragraphs.
+
+SPACING & LAYOUT
+- One spacing scale: 4, 8, 16, 24, 32, 48, 64, 96, 128px. Use only these values.
+- Global content max-width: 1200px, centered, with 24px side padding (clamp for mobile).
+- Vertical section padding: 96px desktop, 64px tablet, 48px mobile. Consistent everywhere.
+- Generous whitespace. Crowded layouts read as cheap.
+
+COLOR
+- Build a restrained palette: {{PRIMARY_COLOR}} and {{SECONDARY_COLOR}} plus a near-black ink color, a soft off-white background, one light neutral for alternating sections, and ONE accent. Nothing more.
+- Use color with discipline: most of the page is neutral; color marks CTAs, links, and eyebrows.
+- NO rainbow gradients, no neon, no glassmorphism. At most one subtle dark or tonal overlay on imagery.
+
+DEPTH & FINISH
+- Border-radius scale: 8px (buttons/inputs), 16px (cards/images). Consistent.
+- Shadows: two levels only — a soft resting shadow and a slightly stronger hover shadow. Soft, low-opacity, never harsh black.
+- Hover states on every interactive element: gentle lift, color shift, or image zoom. Transitions 150–250ms ease.
+- Tasteful fade-up on scroll for sections is welcome. No bouncing, sliding carousels, or distracting motion.
+
+═══════════════════════════════════════
+IMAGES — NO PLACEHOLDERS, EVER
+═══════════════════════════════════════
+- Use real, specific Unsplash photo URLs in this exact format: https://images.unsplash.com/photo-{ID}?auto=format&fit=crop&w=1600&q=80
+- Pick real photo IDs that genuinely match {{BUSINESS_TYPE}} and feel local and professional. Hero image should be atmospheric and high-quality; service images should be relevant and consistent in tone.
+- Never use source.unsplash.com (unreliable), gray boxes, blank divs, "image here" text, or empty visual areas.
+- All images go through an object-fit: cover container with a fixed aspect ratio so layout never breaks.
+
+═══════════════════════════════════════
+COPYWRITING — WRITE LIKE THE OWNER, NOT A MARKETER
+═══════════════════════════════════════
+- Use ONLY the provided business details. Never invent reviews, ratings, awards, certifications, years in business, statistics, team members, or any claim not given.
+- Write in the calm, confident voice of an experienced local owner. Plain, warm, specific.
+- Headlines: short, concrete, benefit-led. No hype words ("best", "#1", "leading", "premier"), no exclamation marks.
+- Body copy: 1–3 short sentences per block. Mention the actual city and service naturally.
+- Read every sentence back — if it sounds like a template or an AI, rewrite it simpler.
+- If a field is missing, omit that element cleanly. Never leave a gap or fabricate a filler.
+
+═══════════════════════════════════════
+PAGE STRUCTURE — FEWER, STRONGER SECTIONS
+═══════════════════════════════════════
+Build only these. Quality over quantity.
+
+1. NAVBAR — business name as wordmark, 3–4 smooth-scroll links, one CTA button. Sticky, responsive, and designed to match the business niche, brand style, hero image, and color palette. Working hamburger menu on mobile.
+
+Navbar design principles:
+- Do not use one fixed navbar style for every business.
+- Choose a navbar treatment that fits the actual business type and brand style:
+  - elegant restaurant / café / boutique: refined editorial navbar, soft surface, warm tones
+  - modern clinic / agency / SaaS-like local service: clean minimal navbar with crisp spacing
+  - trades / repair / construction: solid, practical navbar with strong contrast
+  - luxury / premium service: subtle elevated navbar with polished spacing and restrained depth
+- The navbar must be readable immediately on page load, before the user scrolls.
+- Never rely on scroll state to make the navbar readable.
+- If the hero uses a full-bleed image, protect navbar readability with a tasteful surface, contrast layer, or adaptive text color.
+- The navbar can use a subtle translucent/frosted surface only when it fits the brand style, but avoid trendy or excessive glassmorphism.
+- Avoid huge pill-shaped navbars, bulky white banners, or anything that covers too much of the hero image.
+- Avoid fully transparent navbars with low-contrast text over busy images.
+- On scroll, the navbar may become slightly more defined, but it should not completely change style or size.
+- Keep it elegant, balanced, and integrated with the hero, not pasted on top.
+- The CTA button should feel like part of the same design system, not a random button.
+- On mobile, the menu panel must have a readable background and comfortable spacing.
+
+2. HERO — the make-or-break section. Full-height (min-height: 90vh). Real full-bleed background image with a single tonal overlay for legibility. Left-aligned or centered content with strong hierarchy: small eyebrow (city + business type) → large confident H1 headline → one short supporting line → Primary CTA + Secondary CTA. One quiet trust line below if real info supports it (e.g. opening hours, location). The hero must feel balanced and intentional — generous padding, nothing cramped against edges.
+
+3. SERVICES — not a plain grid of identical cards. Use an elevated layout: large image cards with the image filling the top, a tonal hover zoom, title and a one-line description below, consistent aspect ratios and spacing. 3 across on desktop, 1 on mobile. If there are only 1–2 main services, use a larger feature layout instead of stretching a thin grid.
+
+4. ABOUT — a refined two-column section (image one side, text the other) or a centered statement block. Short, specific intro to the business and why locals choose it. This is where craft shows — keep it elegant and uncluttered.
+
+5. WHY CHOOSE US — 3–4 concise trust points drawn ONLY from the USPs, hours, and location provided. Clean icon-or-number + short label + one line. No fake stats.
+
+6. TESTIMONIALS — include ONLY if {{TESTIMONIALS}} contains real content. Style as quiet, elegant quote cards. If none provided, omit this section entirely — do not replace it with filler.
+
+7. CONTACT — clean and conversion-focused. Business hours, address, and prominent Call / WhatsApp / Email actions. A styled, usable contact form (frontend only, no backend) with proper labels and comfortable input sizing. A Directions button. Make contacting feel effortless.
+
+8. FAQ — include ONLY if it genuinely helps this business type, and keep it to 3–4 questions in a clean accordion or list. If it doesn't add value, omit it.
+
+9. FOOTER — business name, available contact details, address/city, opening hours, current year. Calm and minimal.
+
+Do NOT force a section that weakens the design. A tight 6-section page beats a padded 9-section one.
+
+═══════════════════════════════════════
+FUNCTIONAL REQUIREMENTS
+═══════════════════════════════════════
+- Phone → tel:{{PHONE_NUMBER}}
+- Email → mailto:{{EMAIL_ADDRESS}}
+- WhatsApp → https://wa.me/{{WHATSAPP_NUMBER}} (render only if a WhatsApp number is provided)
+- Directions → {{GOOGLE_MAPS_LINK}} (fall back to address)
+- Navbar links smooth-scroll to sections; account for the sticky navbar height (scroll-margin-top).
+- Every CTA is a real working link or action — no dead buttons.
+- Key contact actions appear in both the hero and the contact section.
+- Fully responsive and tested at mobile (~375px), tablet (~768px), desktop (~1280px). Navbar collapses to a working menu.
+
+═══════════════════════════════════════
+FINAL QUALITY CHECK BEFORE FINISHING
+═══════════════════════════════════════
+- Runs with `npm run dev`, zero console errors, no broken images.
+- All content sourced from src/config/business.js.
+- Typography is large and comfortable — no tiny text anywhere. Spacing is consistent and generous.
+- Hero feels balanced, confident, and high-end.
+- Service cards look elevated, not basic.
+- Color is restrained; no cheap gradients or busy effects.
+- The page feels intentional and complete — something a real local owner would proudly pay for.
+
+Build the strongest, most visually refined version of this website now.
+    </script>
+    <script src="./script.js?v=20260602-9"></script>
   </body>
 </html>
